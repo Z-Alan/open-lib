@@ -62,7 +62,6 @@ models:
   #
   #  -- 书籍
   Book:
-    id: false
     isbn: bigInteger:15 unsigned unique
     name: string:200
     author: string:200 index
