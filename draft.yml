@@ -1,0 +1,103 @@
+models:
+  #  Category:
+  #    parent_id: id foreign:categories nullable
+  #    lft: integer unsigned nullable
+  #    rgt: integer unsigned nullable
+  #    depth: integer unsigned nullable
+  #    name: string
+  #    slug: string unique
+  #    timestamps: true
+  #    softDeletes: true
+  #    relationships:
+  #      hasMany: Article
+  #
+  #  Article:
+  #    category_id: id foreign
+  #    title: string
+  #    slug: string unique default:''
+  #    content: text
+  #    image: string nullable
+  #    status: enum:PUBLISHED,DRAFT
+  #    date: date
+  #    featured: boolean default:0
+  #    timestamps: true
+  #    softDeletes: true
+  #    relationships:
+  #      belongsToMany: Tag
+  #
+  #  Tag:
+  #    name: string
+  #    slug: string unique
+  #    timestamps: true
+  #    softDeletes: true
+  #    relationships:
+  #      belongsToMany: Article
+  #
+  #Seeders: Article, Category, Tag
+  #  -- 顾客
+  Customer:
+    real_name: string:200
+    #    注册时间
+    registered_at: timestamp useCurrent
+    timestamps: true
+    softDeletes: true
+    relationships:
+      hasMany: Order,CustomerAddress
+  #  顾客地址
+  CustomerAddress:
+    customer_id: id foreign:customers
+    full_address: string:1000
+    timestamps: true
+    softDeletes: true
+  #
+  #  -- 书籍类别
+  Category:
+    parent_id: id foreign:categories nullable
+    name: string:200
+    slug: string unique
+    timestamps: true
+    softDeletes: true
+    relationships:
+      hasMany: Book
+  #
+  #  -- 书籍
+  Book:
+    id: false
+    isbn: bigInteger:15 unsigned primary
+    name: string:200
+    author: string:200 index
+    price: decimal:8,2 default:0
+    publisher: string:200
+    published_at: timestamp nullable
+    timestamps: true
+    softDeletes: true
+    relationships:
+      hasOne: BookInventory
+  #  -- 库存
+  BookInventory:
+    isbn: isbn foreign:books
+    available_stock: integer
+    timestamps: true
+    softDeletes: true
+  #
+  #  -- 订单
+  CustomerOrder:
+    customer_id: id foreign:customers
+    order_at: timestamp useCurrent
+    delivery_at: timestamp nullable
+    order_amount: decimal:10,2 default:0
+    timestamps: true
+    softDeletes: true
+    relationships:
+      hasOne: Address
+      hasMany: OrderBook
+  # -- 订单购买书籍
+  OrderBook:
+    order_id: id foreign:customerOrders
+    isbn: isbn foreign:books
+    count: smallInteger
+    timestamps: true
+    softDeletes: true
+#
+
+Seeders: Customer,CustomerAddress,Category,Book,BookInventory,CustomerOrder, OrderBook
