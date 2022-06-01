@@ -1,39 +1,4 @@
 models:
-  #  Category:
-  #    parent_id: id foreign:categories nullable
-  #    lft: integer unsigned nullable
-  #    rgt: integer unsigned nullable
-  #    depth: integer unsigned nullable
-  #    name: string
-  #    slug: string unique
-  #    timestamps: true
-  #    softDeletes: true
-  #    relationships:
-  #      hasMany: Article
-  #
-  #  Article:
-  #    category_id: id foreign
-  #    title: string
-  #    slug: string unique default:''
-  #    content: text
-  #    image: string nullable
-  #    status: enum:PUBLISHED,DRAFT
-  #    date: date
-  #    featured: boolean default:0
-  #    timestamps: true
-  #    softDeletes: true
-  #    relationships:
-  #      belongsToMany: Tag
-  #
-  #  Tag:
-  #    name: string
-  #    slug: string unique
-  #    timestamps: true
-  #    softDeletes: true
-  #    relationships:
-  #      belongsToMany: Article
-  #
-  #Seeders: Article, Category, Tag
   #  -- 顾客
   Customer:
     real_name: string:200
@@ -41,8 +6,7 @@ models:
     registered_at: timestamp useCurrent
     timestamps: true
     softDeletes: true
-    relationships:
-      hasMany: Order,CustomerAddress
+
   #  顾客地址
   CustomerAddress:
     customer_id: id foreign:customers
@@ -57,12 +21,10 @@ models:
     slug: string unique
     timestamps: true
     softDeletes: true
-    relationships:
-      hasMany: Book
   #
   #  -- 书籍
   Book:
-    isbn: bigInteger:15 unsigned unique
+    isbn: integer unsigned unique
     name: string:200
     author: string:200 index
     price: decimal:8,2 default:0
@@ -70,11 +32,10 @@ models:
     published_at: timestamp nullable
     timestamps: true
     softDeletes: true
-    relationships:
-      hasOne: BookInventory
+
   #  -- 库存
   BookInventory:
-    isbn: isbn foreign:books
+    book_id: id foreign:books
     available_stock: integer
     timestamps: true
     softDeletes: true
@@ -87,16 +48,12 @@ models:
     order_amount: decimal:10,2 default:0
     timestamps: true
     softDeletes: true
-    relationships:
-      hasOne: Address
-      hasMany: OrderBook
+
   # -- 订单购买书籍
   OrderBook:
     order_id: id foreign:customerOrders
-    isbn: isbn foreign:books
+    book_id: id foreign:books
     count: smallInteger
     timestamps: true
     softDeletes: true
 #
-
-Seeders: Customer,CustomerAddress,Category,Book,BookInventory,CustomerOrder, OrderBook
