@@ -1,64 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+1.环境
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+* [php 8.16](https://www.php.net/)
+* [composer 2.3.6](https://getcomposer.org/)
+* [Laravel](http://laravel.p2hp.com/)
 
-## About Laravel
+2.安装参考
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* [Laravel 怎么安装](https://www.php.cn/phpkj/laravel/482104.html)
+* [Laravel-Backpack Demo - issues reuire backpack pro](https://github.com/Laravel-Backpack/demo/issues/383)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+3.文档
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* [Laravel docs](https://laravel.com/docs/9.x/eloquent-relationships)
+* [Bluprint docs](https://blueprint.laravelshift.com/docs/model-relationships/)
+* [Backpack docs](https://backpackforlaravel.com/docs/4.0/installation)
 
-## Learning Laravel
+4.如何创建一个backpack的laravel项目
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4.1 Create a Laravel project and add backpack/crud dependence
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```powershell
+laravel new yourprojectname
+cd yourprojectname
+composer require backpack/crud
+```
 
-## Laravel Sponsors
+4.2 modify .env file with your database config
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+4.3 testing 
 
-### Premium Partners
+```php
+php artisan backpack:install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+it will generate some basic table and a admin dashboard page 
 
-## Contributing
+```php
+-- 启动服务 查看是否生成正常
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4.4 add blueprint dependence
 
-## Security Vulnerabilities
+```
+-- 模型生成工具
+composer require --dev laravel-shift/blueprint
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4.5 add backpack/generators dependence
 
-## License
+```php
+-- crud cli生成工具
+composer require --dev backpack/generators
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4.6 init git project 
+
+```pow
+git init
+git add .
+git commit -m 'init project'
+```
+
+its worth to do it , you can have a clean and working project with rollback this project in anytime 
+
+4.7 add draft.yml
+
+this file contains your database model
+
+4.8  生成相关crud 代码 after add  draft.yml
+
+```powershell
+php artisan blueprint:build
+php artisan backpack:build
+```
+
+4.9 generate table 
+
+```power
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+```
+
+4.10 test
+
+
+```php
+php artisan serve
+```
+

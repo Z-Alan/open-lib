@@ -1,0 +1,31 @@
+created:
+    - database/factories/CustomerFactory.php
+    - database/factories/CustomerAddressFactory.php
+    - database/factories/CategoryFactory.php
+    - database/factories/BookFactory.php
+    - database/factories/BookInventoryFactory.php
+    - database/factories/CustomerOrderFactory.php
+    - database/factories/OrderBookFactory.php
+    - database/migrations/2022_06_01_072622_create_customers_table.php
+    - database/migrations/2022_06_01_072623_create_customer_addresses_table.php
+    - database/migrations/2022_06_01_072624_create_categories_table.php
+    - database/migrations/2022_06_01_072625_create_books_table.php
+    - database/migrations/2022_06_01_072626_create_book_inventories_table.php
+    - database/migrations/2022_06_01_072627_create_customer_orders_table.php
+    - database/migrations/2022_06_01_072628_create_order_books_table.php
+    - database/migrations/2022_06_01_072629_create_book_category_table.php
+    - app/Models/Customer.php
+    - app/Models/CustomerAddress.php
+    - app/Models/Category.php
+    - app/Models/Book.php
+    - app/Models/BookInventory.php
+    - app/Models/CustomerOrder.php
+    - app/Models/OrderBook.php
+models:
+    Customer: { real_name: 'string:200', registered_at: 'timestamp useCurrent', timestamps: timestamps, softdeletes: softDeletes, relationships: { hasMany: 'CustomerAddress,CustomerOrder' } }
+    CustomerAddress: { customer_id: 'id foreign:customers', full_address: 'string:1000', timestamps: timestamps, softdeletes: softDeletes }
+    Category: { parent_id: 'id foreign:categories nullable', name: 'string:200', slug: 'string unique', timestamps: timestamps, softdeletes: softDeletes, relationships: { hasMany: Book } }
+    Book: { isbn: 'integer unsigned unique', category_id: 'id foreign', name: 'string:200', author: 'string:200 index', price: 'decimal:8,2 default:0', publisher: 'string:200', published_at: 'timestamp nullable', timestamps: timestamps, softdeletes: softDeletes, relationships: { hasOne: BookInventory, belongsToMany: Category } }
+    BookInventory: { book_id: 'id foreign:books', available_stock: integer, timestamps: timestamps, softdeletes: softDeletes }
+    CustomerOrder: { customer_id: 'id foreign:customers', order_no: 'string:200 unique', order_at: 'timestamp useCurrent', delivery_at: 'timestamp nullable', order_amount: 'decimal:10,2 default:0', timestamps: timestamps, softdeletes: softDeletes }
+    OrderBook: { order_id: 'id foreign:customerOrders', book_id: 'id foreign:books', book_name: 'string:200', count: smallInteger, timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsTo: CustomerOrder } }

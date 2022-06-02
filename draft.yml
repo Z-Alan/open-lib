@@ -6,6 +6,8 @@ models:
     registered_at: timestamp useCurrent
     timestamps: true
     softDeletes: true
+    relationships:
+      hasMany: CustomerAddress,CustomerOrder
 
   #  顾客地址
   CustomerAddress:
@@ -21,10 +23,14 @@ models:
     slug: string unique
     timestamps: true
     softDeletes: true
+    relationships:
+      hasMany: Book
+
   #
   #  -- 书籍
   Book:
     isbn: integer unsigned unique
+    category_id: id foreign
     name: string:200
     author: string:200 index
     price: decimal:8,2 default:0
@@ -32,6 +38,9 @@ models:
     published_at: timestamp nullable
     timestamps: true
     softDeletes: true
+    relationships:
+      hasOne: BookInventory
+      belongsToMany: Category
 
   #  -- 库存
   BookInventory:
@@ -43,6 +52,7 @@ models:
   #  -- 订单
   CustomerOrder:
     customer_id: id foreign:customers
+    order_no: string:200 unique
     order_at: timestamp useCurrent
     delivery_at: timestamp nullable
     order_amount: decimal:10,2 default:0
@@ -53,7 +63,10 @@ models:
   OrderBook:
     order_id: id foreign:customerOrders
     book_id: id foreign:books
+    book_name: string:200
     count: smallInteger
     timestamps: true
     softDeletes: true
+    relationships:
+      belongsTo: CustomerOrder
 #
